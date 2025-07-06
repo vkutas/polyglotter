@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "polyglotter",
+    "version": "1.0",
+    "description": "Translate selected text",
+    "permissions": [
+        "activeTab",
+        "https://translate.api.cloud.yandex.net/translate/v2/translate",
+        "webRequest",
+        "webRequestBlocking"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "css": ["content.css"]
+      }
+    ],
+    "web_accessible_resources": [
+      "icons/logo/icon-32.png"
+    ]
+  }
