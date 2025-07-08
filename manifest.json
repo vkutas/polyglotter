@@ -33,5 +33,9 @@
     "gecko": {
       "id": "polyglotter@vkutas.dev"
     }
-  }
+  },
+  "web_accessible_resources": [
+    "popup/popup.html",
+    "popup/popup.css"
+  ]
 }

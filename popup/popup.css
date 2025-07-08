@@ -11,7 +11,7 @@ body {
     color: #333;
 }
 
-.container {
+.popup-container {
     max-width: 300px;
     margin: 20px auto;
     padding: 10px;
@@ -20,7 +20,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.header {
+.popup-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,7 +41,7 @@ body {
     margin-left: 5px;
 }
 
-.content {
+.popup-content {
     padding: 15px 0;
 }
 

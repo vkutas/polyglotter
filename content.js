@@ -69,8 +69,10 @@ document.addEventListener('mousedown', (event) => {
 popup.querySelector('button').addEventListener('click', () => {
   console.log('Selected text:', selectedText);
   popup.style.display = 'none';
+  popupLeft = popup.style.left
+  popupTop = popup.style.top
   translateText(selectedText)
-    .then(translation => showPopupWindow(translation))
+    .then(translation => showPopupWindow(selectedText, translation, popupLeft, popupTop))
     .catch(error => console.error(error));
 });
 
@@ -118,10 +120,55 @@ async function translateText(text) {
   }
 }
 
-function showPopupWindow(translatedText) {
+function showPopupWindow(selectedText, translatedText, left, top) {
   console.log("Translated text: ", translatedText)
-  console.log("URL: ", browser.runtime.getURL('popup/popup.html'))
-  // popupWindow = window.open('popup/popup.html', '_blank', 'width=300,height=400')
-  // popupWindow.document.getElementById("translated-text").innerText = translatedText
+
+  popup.W
+
+  const popupContainer = document.createElement('div');
+  popupContainer.id = 'text-selection-popup';
+  popupContainer.style.display = 'block';
+  popupContainer.innerHTML = `
+   <div id="popup-container">
+        <button class="close-btn">×</button>
+        <span class="text" id="original-text"></span>
+        <span class="text" id="translated-text"></span>
+    </div>
+  `
+  document.body.appendChild(popupContainer);
+  popupContainer.style.left = left
+  popupContainer.style.top = top
+  popupContainer.style.position = "absolute"
+  popupContainer.querySelector('#original-text').textContent = selectedText
+  popupContainer.querySelector('#translated-text').textContent = translatedText
+
+  // fetch(browser.runtime.getURL('popup/popup.html'))
+  //   .then(response => response.text())
+  //   .then(html => {
+  //     popupContainer.innerHTML = html;
+  //     popupContainer.style.display = 'block';
+
+  //     // Get references to popup elements
+  //     const popup = popupContainer.querySelector('#popup-container');
+  //     const originalTextElement = popupContainer.querySelector('#original-text');
+  //     const translatedTextElement = popupContainer.querySelector('#translated-text');
+
+  //     // Close popup when clicking outside
+  //     document.addEventListener('mousedown', (event) => {
+  //       if (!popup.contains(event.target)) {
+  //         popupContainer.style.display = 'none';
+  //       }
+  //     });
+
+  //     originalTextElement.textContent = selectedText
+  //     translatedTextElement.textContent = translatedText
+
+  //   })
+  //   .catch(error => {
+  //     console.error('Error loading popup HTML:', error);
+  //   });
+
+
+
 }
 
