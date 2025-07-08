@@ -4,10 +4,11 @@
   "version": "1.0",
   "description": "Translate selected text",
   "permissions": [
-    "activeTab",
     "https://translate.api.cloud.yandex.net/translate/v2/translate",
+    "activeTab",
     "webRequest",
-    "webRequestBlocking"
+    "webRequestBlocking",
+    "storage"
   ],
   "content_scripts": [
     {
@@ -24,5 +25,13 @@
   ],
   "icons": {
     "32": "icons/logo/icon-32.png"
+  },
+  "options_ui": {
+    "page": "settings/settings.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "polyglotter@vkutas.dev"
+    }
   }
 }

@@ -1,5 +1,9 @@
 console.log("I'm working")
 
+// console.log("Api key: ", browser.storage.sync.get("apiKey").then(onGot, onError))
+
+// const getting = browser.storage.sync.get("apiKey");
+// getting.then(item => console.log("API Key: ", item.apiKey));
 
 // Create the popup element
 const popup = document.createElement('div');
@@ -72,7 +76,14 @@ popup.querySelector('button').addEventListener('click', () => {
 
 async function translateText(text) {
   url = "https://translate.api.cloud.yandex.net/translate/v2/translate"
-  folderId = "b1g6sffa6q8ns3b0gt94"
+
+  let apiKeyPromise = await browser.storage.sync.get("apiKey");
+  const apiKey = await apiKeyPromise.apiKey
+  console.log("API Key: ", apiKey)
+
+  let folderIdPromise = await browser.storage.sync.get("folderId");
+  const folderId = await folderIdPromise.folderId
+  console.log("folder ID: ", folderId)
 
   try {
     const response = await fetch(url, {
