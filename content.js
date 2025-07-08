@@ -70,7 +70,7 @@ popup.querySelector('button').addEventListener('click', () => {
   console.log('Selected text:', selectedText);
   popup.style.display = 'none';
   translateText(selectedText)
-    .then(translation => console.log("Translated text: ", translation))
+    .then(translation => showPopupWindow(translation))
     .catch(error => console.error(error));
 });
 
@@ -117,3 +117,11 @@ async function translateText(text) {
     throw error; // Re-throw to allow caller to handle
   }
 }
+
+function showPopupWindow(translatedText) {
+  console.log("Translated text: ", translatedText)
+  console.log("URL: ", browser.runtime.getURL('popup/popup.html'))
+  // popupWindow = window.open('popup/popup.html', '_blank', 'width=300,height=400')
+  // popupWindow.document.getElementById("translated-text").innerText = translatedText
+}
+
