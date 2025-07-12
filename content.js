@@ -143,8 +143,7 @@ function showPopupWindow(selectedText, translatedText, left, top, translateButto
       translationPopupContainer.querySelector('#plg-translation-text').textContent = translatedText;
       // translationPopupContainer.style.left = `${translateButtonRect.left - 32}px`
       // translationPopupContainer.style.top = `${translateButtonRect.top - 0 + scrollTop}px`
-      const translationPopupContainerWidth = translationPopupContainer.getBoundingClientRect().width
-      translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - translationPopupContainerWidth / 2}px`
+      translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - 140}px`
       translationPopupContainer.style.top = `${selectedTextRect.y + selectedTextRect.height + 5 + scrollTop}px`
       console.log("Position fact: ", translationPopupContainer.style.left, translationPopupContainer.style.top)
       console.log("selectedTextRect: ", selectedTextRect)
