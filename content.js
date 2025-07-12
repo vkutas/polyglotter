@@ -1,4 +1,4 @@
-console.log("I'm working")
+// console.log("I'm working")
 
 translationApiEndpoint = "https://translate.api.cloud.yandex.net/translate/v2/translate"
 
@@ -9,7 +9,6 @@ translateButton.innerHTML = `
   <button title="translate selected text">
     <img src=${browser.runtime.getURL('icons/logo/icon-32.png')} width="32" height="32"> 
   </button>`;
-// document.body.appendChild(translateButton);
 
 let selectedText = '';
 // cordinates of selected text
@@ -27,13 +26,9 @@ document.addEventListener('mouseup', (event) => {
     // Position the translateButton near the selection
     document.body.appendChild(translateButton);
     translateButton.style.display = 'block';
-    // translateButton.style.left = `${event.pageX}px`;
-    // translateButton.style.top = `${event.pageY + 20}px`;
     translateButton.style.left = `${posX}px`;
     translateButton.style.top = `${posY}px`;
     selectedTextRect = getSelectedTextPosition(selection)
-    console.log("translateButton pos data: ", posX, posY)
-    console.log("translateButton pos fact: ", translateButton.style.left, translateButton.style.top)
   } else {
     translateButton.style.display = 'none';
   }
@@ -48,7 +43,7 @@ document.addEventListener('mousedown', (event) => {
 
 // Handle button click
 translateButton.querySelector('button').addEventListener('click', () => {
-  console.log('Selected text:', selectedText);
+  // console.log('Selected text:', selectedText);
   // remove translateButton
   let translateButtonRect = translateButton.getBoundingClientRect();
   translateButton.remove()
@@ -81,7 +76,7 @@ async function translateText(text) {
 
   let folderIdPromise = await browser.storage.sync.get("folderId");
   const folderId = await folderIdPromise.folderId
-  console.log("folder ID: ", folderId)
+  // console.log("folder ID: ", folderId)
 
   try {
     const response = await fetch(translationApiEndpoint, {
@@ -118,11 +113,17 @@ async function translateText(text) {
 
 // show translation popup
 function showPopupWindow(selectedText, translatedText, left, top, translateButtonRect) {
-  console.log("Translated text: ", translatedText)
+  // console.log("Translated text: ", translatedText)
 
   const translationPopupContainer = document.createElement('div');
   translationPopupContainer.id = 'translation-popup-container';
   translationPopupContainer.style.display = 'block';
+  translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
+  translationPopupContainer.style.position = "absolute"
+  const scrollTop = document.documentElement.scrollTop;
+  translationPopupContainer.querySelector('#plg-translation-text').textContent = translatedText;
+  translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - 140}px`
+  translationPopupContainer.style.top = `${selectedTextRect.y + selectedTextRect.height + 5 + scrollTop}px`
 
   fetch(browser.runtime.getURL('tooltip/tooltip.html'), {
     method: 'GET',
@@ -133,27 +134,7 @@ function showPopupWindow(selectedText, translatedText, left, top, translateButto
     .then(response => response.text())
     .then(html => {
 
-
-      // Get references to popup elements
-      // const popup = popupContainer.querySelector('#popup-container');
       translationPopupContainer.innerHTML = html;
-      console.log("Position passed: ", left, top)
-      console.log("translateButtonRect: ", translateButtonRect)
-      const scrollTop = document.documentElement.scrollTop;
-      translationPopupContainer.querySelector('#plg-translation-text').textContent = translatedText;
-      // translationPopupContainer.style.left = `${translateButtonRect.left - 32}px`
-      // translationPopupContainer.style.top = `${translateButtonRect.top - 0 + scrollTop}px`
-      translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - 140}px`
-      translationPopupContainer.style.top = `${selectedTextRect.y + selectedTextRect.height + 5 + scrollTop}px`
-      console.log("Position fact: ", translationPopupContainer.style.left, translationPopupContainer.style.top)
-      console.log("selectedTextRect: ", selectedTextRect)
-      translationPopupContainer.style.position = "absolute"
-      translationPopupContainer.style.display = 'block';
-      console.log("Position after: ", translationPopupContainer.style.left, translationPopupContainer.style.top)
-
-      translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
-      // translationPopupContainer.querySelector('#original-text').textContent = selectedText;
-
       document.body.appendChild(translationPopupContainer);
 
       // Close popup when clicking outside
