@@ -35,8 +35,8 @@
     }
   },
   "web_accessible_resources": [
-    "popup/popup.html",
-    "popup/popup.css",
+    "tooltip/tooltip.html",
+    "tooltip/tooltip.css",
     "icons/logo/icon-32.png"
   ]
 }

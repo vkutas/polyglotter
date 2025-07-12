@@ -12,16 +12,16 @@ translateButton.innerHTML = `
 // document.body.appendChild(translateButton);
 
 let selectedText = '';
-// bottom left cordinates of selected text
-let selectedTextPosition = { x: 0, y: 0 }
+// cordinates of selected text
+let selectedTextRect
 
 // Track mouseup events to detect text selection
 document.addEventListener('mouseup', (event) => {
-  selectedText = window.getSelection().toString().trim();
-  // selectedTextPosition = getSelectedTextPosition(selectedText)
+  let selection = window.getSelection()
+  selectedText = selection.toString().trim();
   const scrollTop = document.documentElement.scrollTop;
-  const posX = event.clientX - 50;
-  const posY = event.clientY + 20 + scrollTop;
+  const posX = event.clientX;
+  const posY = event.clientY + 10 + scrollTop;
 
   if (selectedText.length > 0) {
     // Position the translateButton near the selection
@@ -31,6 +31,9 @@ document.addEventListener('mouseup', (event) => {
     // translateButton.style.top = `${event.pageY + 20}px`;
     translateButton.style.left = `${posX}px`;
     translateButton.style.top = `${posY}px`;
+    selectedTextRect = getSelectedTextPosition(selection)
+    console.log("translateButton pos data: ", posX, posY)
+    console.log("translateButton pos fact: ", translateButton.style.left, translateButton.style.top)
   } else {
     translateButton.style.display = 'none';
   }
@@ -47,21 +50,26 @@ document.addEventListener('mousedown', (event) => {
 translateButton.querySelector('button').addEventListener('click', () => {
   console.log('Selected text:', selectedText);
   // remove translateButton
+  let translateButtonRect = translateButton.getBoundingClientRect();
   translateButton.remove()
   translateText(selectedText)
-    .then(translation => showPopupWindow(
-      selectedText,
-      translation,
-      translateButton.style.left,
-      translateButton.style.top
-    ))
+    .then(translation => {
+
+      showPopupWindow(
+        selectedText,
+        translation,
+        translateButton.style.left,
+        translateButton.style.top,
+        translateButtonRect
+      )
+    }
+    )
     .catch(error => console.error(error));
 });
 
 function getSelectedTextPosition(selection) {
   if (selection.rangeCount > 0) {
-    const rect = selection.getRangeAt(0).getBoundingClientRect();
-    return { x: rect.x, y: rect.y - rect.width }
+    return selection.getRangeAt(0).getBoundingClientRect();
   }
 }
 
@@ -109,17 +117,19 @@ async function translateText(text) {
 }
 
 // show translation popup
-function showPopupWindow(selectedText, translatedText, left, top) {
+function showPopupWindow(selectedText, translatedText, left, top, translateButtonRect) {
   console.log("Translated text: ", translatedText)
 
   const translationPopupContainer = document.createElement('div');
   translationPopupContainer.id = 'translation-popup-container';
   translationPopupContainer.style.display = 'block';
 
-  // popupContainer.querySelector('#original-text').textContent = selectedText
-  // popupContainer.querySelector('#translated-text').textContent = translatedText
-
-  fetch(browser.runtime.getURL('popup/popup.html'))
+  fetch(browser.runtime.getURL('tooltip/tooltip.html'), {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'text/html; text/css'
+    },
+  })
     .then(response => response.text())
     .then(html => {
 
@@ -127,12 +137,24 @@ function showPopupWindow(selectedText, translatedText, left, top) {
       // Get references to popup elements
       // const popup = popupContainer.querySelector('#popup-container');
       translationPopupContainer.innerHTML = html;
-      translationPopupContainer.style.left = left
-      translationPopupContainer.style.top = top
+      console.log("Position passed: ", left, top)
+      console.log("translateButtonRect: ", translateButtonRect)
+      const scrollTop = document.documentElement.scrollTop;
+      translationPopupContainer.querySelector('#plg-translation-text').textContent = translatedText;
+      // translationPopupContainer.style.left = `${translateButtonRect.left - 32}px`
+      // translationPopupContainer.style.top = `${translateButtonRect.top - 0 + scrollTop}px`
+      const translationPopupContainerWidth = translationPopupContainer.getBoundingClientRect().width
+      translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - translationPopupContainerWidth / 2}px`
+      translationPopupContainer.style.top = `${selectedTextRect.y + selectedTextRect.height + 5 + scrollTop}px`
+      console.log("Position fact: ", translationPopupContainer.style.left, translationPopupContainer.style.top)
+      console.log("selectedTextRect: ", selectedTextRect)
       translationPopupContainer.style.position = "absolute"
       translationPopupContainer.style.display = 'block';
-      translationPopupContainer.querySelector('#original-text').textContent = selectedText;
-      translationPopupContainer.querySelector('#translated-text').textContent = translatedText;
+      console.log("Position after: ", translationPopupContainer.style.left, translationPopupContainer.style.top)
+
+      translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
+      // translationPopupContainer.querySelector('#original-text').textContent = selectedText;
+
       document.body.appendChild(translationPopupContainer);
 
       // Close popup when clicking outside

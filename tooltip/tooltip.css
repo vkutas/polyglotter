@@ -1,15 +1,11 @@
-#translate-button {
-  position: absolute;
-  display: none;
-  z-index: 999999;
-  width: 32px;
-  height: 32px;
+body {
+  background-color: #3d3d3d;
 }
 
 #plg-tooltip-wrapper {
   z-index: 3147483647;
-  max-width: 750px;
-  max-height: 425px;
+  max-width: 450px;
+  max-height: 325px;
   display: block;
   position: absolute;
   font-size: 13px !important;
@@ -26,11 +22,11 @@
 }
 
 #plg-translation-row {
-  padding: 5px 10px 10px 5px;
+  padding-top: 5px;
 }
 
 #plg-tooltip-row {
-  padding: 5px 10px 10px 5px;
+  padding-bottom: 5px;
 }
 
 #plg-translation-text,
