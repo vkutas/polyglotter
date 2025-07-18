@@ -2,13 +2,7 @@
 
 translationApiEndpoint = "https://translate.api.cloud.yandex.net/translate/v2/translate"
 
-// Create the popup element
-const translateButton = document.createElement('div');
-translateButton.id = 'translate-button';
-translateButton.innerHTML = `
-  <button title="translate selected text">
-    <img src=${browser.runtime.getURL('icons/logo/icon-32.png')} width="32" height="32"> 
-  </button>`;
+
 
 let selectedText = '';
 // cordinates of selected text
@@ -18,96 +12,83 @@ let selectedTextRect
 document.addEventListener('mouseup', (event) => {
   let selection = window.getSelection()
   selectedText = selection.toString().trim();
-  const scrollTop = document.documentElement.scrollTop;
-  const posX = event.clientX;
-  const posY = event.clientY + 10 + scrollTop;
 
-  if (selectedText.length > 0) {
-    // Position the translateButton near the selection
-    document.body.appendChild(translateButton);
-    translateButton.style.display = 'block';
-    translateButton.style.left = `${posX}px`;
-    translateButton.style.top = `${posY}px`;
+  if (selectedText.length > 0 && !document.getElementById('plg-translate-btn')) {
+    showTranslateButton(
+      event.clientX,
+      event.clientY + 10 + document.documentElement.scrollTop
+    )
+
     selectedTextRect = getSelectedTextPosition(selection)
-  } else {
-    translateButton.style.display = 'none';
   }
 });
 
-// remove translateButton from DOM when clicking elsewhere
-document.addEventListener('mousedown', (event) => {
-  if (!translateButton.contains(event.target)) {
-    translateButton.remove()
-  }
-});
 
-// Handle button click
-translateButton.querySelector('button').addEventListener('click', () => {
-  // console.log('Selected text:', selectedText);
-  // remove translateButton
-  let translateButtonRect = translateButton.getBoundingClientRect();
-  translateButton.remove()
+// show tranlation button
+function showTranslateButton(posX, posY) {
+  const translateButton = document.createElement('button');
+  // translateButton.id = 'translate-button';
+  translateButton.id = 'plg-translate-btn';
+  translateButton.title = 'Click to translate selected text'
+
+
+  fetch(browser.runtime.getURL('translate-language-svgrepo-com.svg'), {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'image/svg+xml'
+    },
+  })
+    .then(response => response.text())
+    .then(svg => {
+
+      translateButton.innerHTML = svg;
+
+      // show translateButton and set it position
+      document.body.appendChild(translateButton);
+      translateButton.style.display = 'block';
+      translateButton.style.left = `${posX}px`;
+      translateButton.style.top = `${posY + 10}px`;
+
+      // remove translateButton from DOM when clicking elsewhere
+      document.addEventListener('mousedown', (event) => {
+        if (!translateButton.contains(event.target)) {
+          translateButton.remove()
+        }
+      });
+
+      translateButton.addEventListener('click', (event) => {
+        translateButtonClick(event.currentTarget)
+      });
+
+    })
+    .catch(error => {
+      console.error('Error loading translation buttom svg:', error);
+    });
+}
+
+// Handle translateButton button click
+function translateButtonClick(eventTarget) {
+  console.log('Selected text:', selectedText);
+  let translateButtonRect = eventTarget.getBoundingClientRect();
+  eventTarget.remove()
   translateText(selectedText)
     .then(translation => {
 
+      console.log('Translated text:', translation);
       showPopupWindow(
         selectedText,
         translation,
-        translateButton.style.left,
-        translateButton.style.top,
+        eventTarget.style.left,
+        eventTarget.style.top,
         translateButtonRect
       )
-    }
-    )
+    })
     .catch(error => console.error(error));
-});
+};
 
 function getSelectedTextPosition(selection) {
   if (selection.rangeCount > 0) {
     return selection.getRangeAt(0).getBoundingClientRect();
-  }
-}
-
-async function translateText(text) {
-
-  let apiKeyPromise = await browser.storage.sync.get("apiKey");
-  const apiKey = await apiKeyPromise.apiKey
-  // console.log("API Key: ", apiKey)
-
-  let folderIdPromise = await browser.storage.sync.get("folderId");
-  const folderId = await folderIdPromise.folderId
-  // console.log("folder ID: ", folderId)
-
-  try {
-    const response = await fetch(translationApiEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Api-Key ${apiKey}`
-      },
-      body: JSON.stringify({
-        folderId: folderId,
-        targetLanguageCode: "ru",
-        texts: [text]
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    // Return the first translation's text if input was a single string
-    // Or return array of translations if input was an array
-    if (Array.isArray(text)) {
-      return data.translations.map(t => t.text);
-    }
-    return data.translations[0].text;
-
-  } catch (error) {
-    console.error('Translation error:', error);
-    throw error; // Re-throw to allow caller to handle
   }
 }
 
@@ -117,13 +98,6 @@ function showPopupWindow(selectedText, translatedText, left, top, translateButto
 
   const translationPopupContainer = document.createElement('div');
   translationPopupContainer.id = 'translation-popup-container';
-  translationPopupContainer.style.display = 'block';
-  translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
-  translationPopupContainer.style.position = "absolute"
-  const scrollTop = document.documentElement.scrollTop;
-  translationPopupContainer.querySelector('#plg-translation-text').textContent = translatedText;
-  translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - 140}px`
-  translationPopupContainer.style.top = `${selectedTextRect.y + selectedTextRect.height + 5 + scrollTop}px`
 
   fetch(browser.runtime.getURL('tooltip/tooltip.html'), {
     method: 'GET',
@@ -136,6 +110,13 @@ function showPopupWindow(selectedText, translatedText, left, top, translateButto
 
       translationPopupContainer.innerHTML = html;
       document.body.appendChild(translationPopupContainer);
+      translationPopupContainer.style.display = 'block';
+      translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
+      translationPopupContainer.style.position = "absolute"
+      const scrollTop = document.documentElement.scrollTop;
+      translationPopupContainer.querySelector('#plg-translation-text').textContent = translatedText;
+      translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - 140}px`
+      translationPopupContainer.style.top = `${selectedTextRect.y + selectedTextRect.height + 5 + scrollTop}px`
 
       // Close popup when clicking outside
       document.addEventListener('mousedown', (event) => {
