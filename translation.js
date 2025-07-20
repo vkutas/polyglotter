@@ -1,3 +1,5 @@
+translationApiEndpoint = "https://translate.api.cloud.yandex.net/translate/v2/translate"
+
 async function translateText(text) {
 
     let apiKeyPromise = await browser.storage.sync.get("apiKey");

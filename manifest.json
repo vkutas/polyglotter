@@ -32,11 +32,11 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "polyglotter@vkutas.dev"
+      "id": "polyglotter@k.vlad.dev"
     }
   },
   "web_accessible_resources": [
-    "translate-language-svgrepo-com.svg",
+    "translate.svg",
     "tooltip/tooltip.html",
     "icons/logo/icon-32.png"
   ]

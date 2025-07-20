@@ -1,9 +1,3 @@
-// console.log("I'm working")
-
-translationApiEndpoint = "https://translate.api.cloud.yandex.net/translate/v2/translate"
-
-
-
 let selectedText = '';
 // cordinates of selected text
 let selectedTextRect
@@ -27,12 +21,11 @@ document.addEventListener('mouseup', (event) => {
 // show tranlation button
 function showTranslateButton(posX, posY) {
   const translateButton = document.createElement('button');
-  // translateButton.id = 'translate-button';
   translateButton.id = 'plg-translate-btn';
   translateButton.title = 'Click to translate selected text'
 
 
-  fetch(browser.runtime.getURL('translate-language-svgrepo-com.svg'), {
+  fetch(browser.runtime.getURL('translate.svg'), {
     method: 'GET',
     headers: {
       'Content-Type': 'image/svg+xml'
@@ -94,7 +87,6 @@ function getSelectedTextPosition(selection) {
 
 // show translation popup
 function showPopupWindow(selectedText, translatedText, left, top, translateButtonRect) {
-  // console.log("Translated text: ", translatedText)
 
   const translationPopupContainer = document.createElement('div');
   translationPopupContainer.id = 'translation-popup-container';
@@ -130,8 +122,4 @@ function showPopupWindow(selectedText, translatedText, left, top, translateButto
     .catch(error => {
       console.error('Error loading popup HTML:', error);
     });
-
-
-
 }
-
