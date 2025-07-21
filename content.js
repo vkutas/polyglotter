@@ -1,11 +1,5 @@
-// console.log("I'm working")
-
-translationApiEndpoint = "https://translate.api.cloud.yandex.net/translate/v2/translate"
-
-
 
 let selectedText = '';
-// cordinates of selected text
 let selectedTextRect
 
 // Track mouseup events to detect text selection
@@ -32,7 +26,7 @@ function showTranslateButton(posX, posY) {
   translateButton.title = 'Click to translate selected text'
 
 
-  fetch(browser.runtime.getURL('translate-language-svgrepo-com.svg'), {
+  fetch(browser.runtime.getURL('icons/translate-btn.svg'), {
     method: 'GET',
     headers: {
       'Content-Type': 'image/svg+xml'
@@ -57,7 +51,7 @@ function showTranslateButton(posX, posY) {
       });
 
       translateButton.addEventListener('click', (event) => {
-        translateButtonClick(event.currentTarget)
+        translateButtonClick(event)
       });
 
     })
@@ -67,20 +61,16 @@ function showTranslateButton(posX, posY) {
 }
 
 // Handle translateButton button click
-function translateButtonClick(eventTarget) {
-  console.log('Selected text:', selectedText);
-  let translateButtonRect = eventTarget.getBoundingClientRect();
-  eventTarget.remove()
+function translateButtonClick(clickEvent) {
+
+  clickEvent.currentTarget.remove()
   translateText(selectedText)
     .then(translation => {
 
-      console.log('Translated text:', translation);
       showPopupWindow(
-        selectedText,
         translation,
-        eventTarget.style.left,
-        eventTarget.style.top,
-        translateButtonRect
+        clickEvent.clientX,
+        clickEvent.clientY
       )
     })
     .catch(error => console.error(error));
@@ -93,11 +83,10 @@ function getSelectedTextPosition(selection) {
 }
 
 // show translation popup
-function showPopupWindow(selectedText, translatedText, left, top, translateButtonRect) {
-  // console.log("Translated text: ", translatedText)
+function showPopupWindow(translatedText, eventX, eventY) {
 
   const translationPopupContainer = document.createElement('div');
-  translationPopupContainer.id = 'translation-popup-container';
+  translationPopupContainer.id = 'plg-tooltip-wrapper';
 
   fetch(browser.runtime.getURL('tooltip/tooltip.html'), {
     method: 'GET',
@@ -114,14 +103,19 @@ function showPopupWindow(selectedText, translatedText, left, top, translateButto
       translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
       translationPopupContainer.style.position = "absolute"
       const scrollTop = document.documentElement.scrollTop;
+      const scrollX = document.documentElement.scrollLeft;
       translationPopupContainer.querySelector('#plg-translation-text').textContent = translatedText;
-      translationPopupContainer.style.left = `${selectedTextRect.x + selectedTextRect.width / 2 - 140}px`
-      translationPopupContainer.style.top = `${selectedTextRect.y + selectedTextRect.height + 5 + scrollTop}px`
+
+      // get translationPopupContainer width
+      const translationContainerWidth = translationPopupContainer.getBoundingClientRect().width;
+
+      // set position
+      translationPopupContainer.style.left = `${eventX - translationContainerWidth / 2 + scrollX}px`
+      translationPopupContainer.style.top = `${eventY + scrollTop}px`
 
       // Close popup when clicking outside
       document.addEventListener('mousedown', (event) => {
         if (!translationPopupContainer.contains(event.target)) {
-          // popupContainer.style.display = 'none';
           translationPopupContainer.remove()
         }
       });
@@ -130,8 +124,4 @@ function showPopupWindow(selectedText, translatedText, left, top, translateButto
     .catch(error => {
       console.error('Error loading popup HTML:', error);
     });
-
-
-
 }
-

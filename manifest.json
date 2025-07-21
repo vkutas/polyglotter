@@ -36,7 +36,7 @@
     }
   },
   "web_accessible_resources": [
-    "translate-language-svgrepo-com.svg",
+    "icons/translate-btn.svg",
     "tooltip/tooltip.html",
     "icons/logo/icon-32.png"
   ]
