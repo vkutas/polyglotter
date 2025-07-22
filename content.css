@@ -1,5 +1,7 @@
 #plg-translate-btn {
   position: absolute;
+  background-color: transparent;
+  border-width: 0px;
   display: none;
   z-index: 999999;
   width: 32px;
@@ -23,10 +25,7 @@
   background-color: rgb(255, 255, 255);
   color: #3d3d3d;
   border-radius: 5px;
-  /* width: 280px; */
   max-width: 750px;
-  /* border-width: 1px;
-  border-style: solid; */
 }
 
 #plg-translation-row {

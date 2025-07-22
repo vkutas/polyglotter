@@ -4,11 +4,11 @@ async function translateText(text) {
 
     let apiKeyPromise = await browser.storage.sync.get("apiKey");
     const apiKey = await apiKeyPromise.apiKey
-    console.log("API Key: ", apiKey)
+    // console.log("API Key: ", apiKey)
 
     let folderIdPromise = await browser.storage.sync.get("folderId");
     const folderId = await folderIdPromise.folderId
-    console.log("folder ID: ", folderId)
+    // console.log("folder ID: ", folderId)
 
     try {
         const response = await fetch(translationApiEndpoint, {

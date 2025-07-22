@@ -54,6 +54,9 @@ button:hover {
     margin-top: 15px;
     padding: 10px;
     border-radius: 4px;
+}
+
+.plg-hidden {
     display: none;
 }
 

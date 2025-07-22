@@ -40,7 +40,7 @@ function showTranslateButton(posX, posY) {
       // show translateButton and set it position
       document.body.appendChild(translateButton);
       translateButton.style.display = 'block';
-      translateButton.style.left = `${posX}px`;
+      translateButton.style.left = `${posX - 16}px`;
       translateButton.style.top = `${posY + 10}px`;
 
       // remove translateButton from DOM when clicking elsewhere
