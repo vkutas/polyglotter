@@ -3,13 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSettings();
 
     // Handle form submission
-    // document.getElementById('settingsForm').addEventListener('submit', function (e) {
-    //     e.preventDefault();
-    //     saveSettings();
-    // });
-    document.getElementById("#plg-settings").addEventListener("submit", function (e) {
+    // document.getElementById("#plg-settings").addEventListener("submit", function (e) {
+    document.getElementById("#saveButton").addEventListener("click", function (e) {
         e.preventDefault();
         saveSettings();
+        
     });
 });
 
@@ -22,9 +20,11 @@ function saveSettings() {
         apiKey: apiKey
     }).then(function () {
         showStatusMessage('Settings saved successfully!', 'success');
+        loadSettings();
     }, function (error) {
         console.error("Error saving settings: ", error);
         showStatusMessage('Error saving settings!', 'error');
+        document.getElementById('api-key').remove()
     });
 }
 
