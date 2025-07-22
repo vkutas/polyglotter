@@ -3,18 +3,40 @@
 
 <head>
     <meta charset="utf-8" />
+    <title>Polyglotter Settings</title>
+    <link rel="stylesheet" href="settings.css">
 </head>
 
-<body>
-    <form>
-        <!-- folder id -->
-        <label>Folder ID <input type="text" id="folder-id" name="folder-id" /></label>
-        <!-- API key -->
-        <label>API key <input type="text" id="api-key" name="api-key" /></label>
+<!-- <body>
+    <form id="plg-settings"> -->
+<!-- folder id -->
+<!-- <label>Folder ID <input type="text" id="folder-id" name="folder-id" /></label> -->
+<!-- API key -->
+<!-- <label>API key <input type="text" id="api-key" name="api-key" /></label> -->
 
-        <button type="submit">Save</button>
+<!-- <button type="submit">Save</button>
+        <div id="plg-statusMessage"></div>
     </form>
 
+    <script src="settings.js"></script>
+</body> -->
+
+<body>
+    <div class="settings-container">
+        <h1>Polyglotter Settings</h1>
+        <form id="settingsForm">
+            <div class="form-group">
+                <label for="folderId">Folder ID:</label>
+                <input type="text" id="folder-id" name="folderId">
+            </div>
+            <div class="form-group">
+                <label for="apiKey">API Key:</label>
+                <input type="text" id="api-key" name="apiKey">
+            </div>
+            <button type="submit" id="saveButton">Save Settings</button>
+            <div id="statusMessage"></div>
+        </form>
+    </div>
     <script src="settings.js"></script>
 </body>
 
