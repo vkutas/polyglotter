@@ -2,8 +2,6 @@ name: Release
 
 on:
   push:
-    branches:
-      - fix-settings
     tags:
       - 'v*'
 
@@ -33,5 +31,4 @@ jobs:
         draft: false
         bodyFile: "./release-notes.txt"
         makeLatest: true
-        tag: v.1.6-debug
-        commit: fix-settings
+        commit: main
