@@ -2,8 +2,11 @@ name: Release
 
 on:
   push:
+    branches:
+      - fix-settings
     tags:
-    - 'v*'
+      - 'v*'
+
 jobs:
   build-and-release:
     runs-on: ubuntu-24.04
