@@ -37,5 +37,5 @@ jobs:
         draft: false
         bodyFile: "./release-notes.txt"
         makeLatest: true
-        tag: v.1.3-debug
+        tag: v.1.4-debug
         commit: fix-settings
