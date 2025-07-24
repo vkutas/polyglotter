@@ -33,5 +33,5 @@ jobs:
         draft: false
         bodyFile: "./release-notes.txt"
         makeLatest: true
-        tag: debug
-        commit: "$GITHUB_SHA"
+        tag: v.1.0-debug
+        commit: fix-settings
