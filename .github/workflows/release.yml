@@ -10,6 +10,8 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-24.04
+    permissions:
+        contents: write
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -24,8 +26,6 @@ jobs:
       id: create-release
       uses: ncipollo/release-action@v1
       if: success()
-      permissions:
-        contents: write
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
