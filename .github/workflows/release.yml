@@ -33,7 +33,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         POSTFIX: ${{ github.ref_name }}
       with:
-        artifacts: "../polyglotter.xpi"
+        artifacts: "../polyglotter-$POSTFIX.xpi"
         draft: false
         bodyFile: "./release-notes.txt"
         makeLatest: true
