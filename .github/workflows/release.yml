@@ -33,9 +33,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         POSTFIX: ${{ github.ref_name }}
       with:
-        artifacts: "./polyglotter-$POSTFIX"
+        artifacts: "./polyglotter-$POSTFIX.xpi"
         draft: false
         bodyFile: "./release-notes.txt"
         makeLatest: true
-        tag: v.1.1-debug
+        tag: v.1.2-debug
         commit: fix-settings
