@@ -34,6 +34,8 @@ jobs:
         # prerelease: false
         bodyFile: "./release-notes.txt"
         makeLatest: true
+        tag: debug
+        commit: "$GITHUB_SHA"
 
     # - name: Upload Release Asset
     #   id: upload-release-asset
