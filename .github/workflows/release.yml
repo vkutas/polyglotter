@@ -22,8 +22,8 @@ jobs:
         ls -l
         ls -l ../
     
-    # - name: Create release notes
-    #   run: git tag -l --format='%(contents:subject)' v0.8.6 > release-notes.txt
+    - name: Create release notes
+      run: git tag -l --format='%(contents:subject)' v0.8.6 > release-notes.txt
 
     - name: Create Release
       id: create-release
