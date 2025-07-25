@@ -33,7 +33,8 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "polyglotter@vkutas.dev"
+      "id": "polyglotter@vkutas.dev",
+      "update_url": "https://storage.yandexcloud.net/vkutas.dev-polyglotter-extension/updates.json"
     }
   },
   "web_accessible_resources": [
