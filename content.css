@@ -73,8 +73,8 @@
 
 .plg-arrow:before {
   content: "";
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   transform: rotate(45deg);
   background: #fff;
   position: absolute;
@@ -83,7 +83,7 @@
 
 #plg-arrow-top:before {
   left: calc(50% - 10px);
-  top: -12px;
+  top: -5px;
   margin-top: 3px;
 }
 
