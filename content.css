@@ -12,8 +12,11 @@
 
 #plg-tooltip-wrapper {
   z-index: 3147483647;
-  max-width: 750px;
-  max-height: 425px;
+  width: 350px;
+  max-width: 350px;
+  height: 270px;
+  max-height: 270px;
+  overflow-y: auto;
   display: block;
   position: absolute;
   font-size: 13px !important;
@@ -25,11 +28,11 @@
   background-color: rgb(255, 255, 255);
   color: #3d3d3d;
   border-radius: 5px;
-  max-width: 750px;
+  max-width: 350px;
 }
 
 #plg-translation-row {
-  max-width: 750px;
+  max-width: 350px;
   padding: 5px 10px 10px 5px;
 }
 
