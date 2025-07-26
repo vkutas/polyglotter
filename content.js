@@ -14,6 +14,21 @@ document.addEventListener('mouseup', (event) => {
     )
 
     selectedTextRect = getSelectedTextPosition(selection)
+
+    // Handle surrounding text 
+    // Check length
+    if (selectedText.length < 20) &&
+    // Check special chars
+    // Check number of words ?
+    const range = selection.getRangeAt(0);
+    let container = range.commonAncestorContainer;
+    console.log('Containing Element:', container);
+
+    // If the container is a text node, get its parent element
+    if (container.nodeType === Node.TEXT_NODE) {
+      container = container.parentNode;
+      console.log('Containing Element Text:', container.textContent.trim());
+    }
   }
 });
 
