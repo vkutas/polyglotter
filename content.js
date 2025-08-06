@@ -7,7 +7,20 @@ document.addEventListener('mouseup', (event) => {
   let selection = window.getSelection()
   selectedText = selection.toString().trim();
 
+
+
   if (selectedText.length > 0 && !document.getElementById('plg-translate-btn')) {
+
+    // Handle surrounding text 
+    if (isSingleSemanticUnit(selectedText)) {
+      console.log(selection)
+      let container = selection.getRangeAt(0).commonAncestorContainer;
+      if (container.nodeType === Node.TEXT_NODE) {
+        var contextText = container.textContent.trim()
+        console.log('Containing Element:', contextText);
+      }
+    }
+
     showTranslateButton(
       event.clientX,
       event.clientY + 10 + document.documentElement.scrollTop
@@ -15,20 +28,15 @@ document.addEventListener('mouseup', (event) => {
 
     selectedTextRect = getSelectedTextPosition(selection)
 
-    // Handle surrounding text 
-    // Check length
-    if (selectedText.length < 20) &&
-    // Check special chars
-    // Check number of words ?
-    const range = selection.getRangeAt(0);
-    let container = range.commonAncestorContainer;
-    console.log('Containing Element:', container);
+
+
+
 
     // If the container is a text node, get its parent element
-    if (container.nodeType === Node.TEXT_NODE) {
-      container = container.parentNode;
-      console.log('Containing Element Text:', container.textContent.trim());
-    }
+    // if (container.nodeType === Node.TEXT_NODE) {
+    //   container = container.parentNode;
+    //   console.log('Containing Element Text:', container.textContent.trim());
+    // }
   }
 });
 
@@ -144,4 +152,16 @@ function showPopupWindow(translatedText, eventX, eventY) {
     .catch(error => {
       console.error('Error loading popup HTML:', error);
     });
+}
+
+// Returns true is text is looks like a single semantic unit
+function isSingleSemanticUnit(text) {
+  if (
+    (text.length < 15) &&
+    (!/[,.?!]/.test(text)) &&
+    (text.trim().split(/\s+/).length < 4)
+  ) {
+    return true
+  }
+  return false
 }
