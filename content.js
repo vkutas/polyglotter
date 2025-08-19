@@ -43,6 +43,13 @@ function showTranslateButton(posX, posY) {
       translateButton.style.left = `${posX - 16}px`;
       translateButton.style.top = `${posY + 10}px`;
 
+      // remove translateButton after 3 seconds
+      setTimeout(function () {
+        if (translateButton) {
+          translateButton.remove();
+        }
+      }, 3000);
+
       // remove translateButton from DOM when clicking elsewhere
       document.addEventListener('mousedown', (event) => {
         if (!translateButton.contains(event.target)) {
