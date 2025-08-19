@@ -100,7 +100,7 @@ function showPopupWindow(translatedText, eventX, eventY) {
       translationPopupContainer.innerHTML = html;
       document.body.appendChild(translationPopupContainer);
       translationPopupContainer.style.display = 'block';
-      translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
+      // translationPopupContainer.querySelector('#plg-arrow-top').style.display = 'block'
       translationPopupContainer.style.position = "absolute"
       const scrollTop = document.documentElement.scrollTop;
       const scrollX = document.documentElement.scrollLeft;

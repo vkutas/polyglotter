@@ -1,101 +1,128 @@
 #plg-translate-btn {
-  position: absolute;
-  background-color: transparent;
-  border-width: 0px;
-  display: none;
-  z-index: 999999;
-  width: 32px;
-  height: 32px;
+    position: absolute;
+    background-color: transparent;
+    border-width: 0px;
+    display: none;
+    z-index: 999999;
+    width: 32px;
+    height: 32px;
 }
 
-/* Translation tooltip */
-
-#plg-tooltip-wrapper {
-  z-index: 3147483647;
-  max-width: 750px;
-  max-height: 425px;
-  display: block;
-  position: absolute;
-  font-size: 13px !important;
-  line-height: normal !important;
-
+.comic-box {
+    width: 350px;
+    height: 270px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-#plg-tooltip-content {
-  background-color: rgb(255, 255, 255);
-  color: #3d3d3d;
-  border-radius: 5px;
-  max-width: 750px;
+
+
+/* Dialog arrow at the top */
+.comic-box::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid white;
+    z-index: 10;
 }
 
-#plg-translation-row {
-  max-width: 750px;
-  padding: 5px 10px 10px 5px;
+.tools-row {
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background: white;
+    color: #3d3d3d;
+    border-bottom: 1px solid #eee;
+    z-index: 5;
 }
 
-#plg-tooltip-row {
-  padding: 5px 10px 10px 5px;
+.language {
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
 }
 
-#plg-translation-text,
-#plg-translation-context {
-  padding: 10px 20px 0px 20px;
-  font-size: 16px !important;
-  font-family: Arial, sans-serif;
+.tools-icons {
+    display: flex;
+    gap: 18px;
 }
 
-#plg-translation-text {
-  font-weight: 600;
+.tools-icons i {
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.plg-arrow {
-  margin: 0 auto;
-  position: relative;
-  z-index: 999;
-  /* display: block; */
-  display: none;
+.tools-icons i:hover {
+    color: #0066cc;
+    transform: scale(1.1);
 }
 
-.plg-arrow:after {
-  content: "";
-  height: 100%;
-  width: 100%;
-  border-radius: 4px;
-  position: absolute;
-  top: 0;
-  left: 0;
-
+.content-row {
+    height: 80%;
+    overflow-y: auto;
+    padding: 5px;
+    color: black;
+    background: white;
 }
 
-.plg-arrow:before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  transform: rotate(45deg);
-  background: #fff;
-  position: absolute;
-  z-index: 998;
+.content-row p {
+    line-height: 1.6;
+    margin-bottom: 15px;
 }
 
-#plg-arrow-top:before {
-  left: calc(50% - 10px);
-  top: -8px;
-  margin-top: 3px;
+/* Custom scrollbar styling */
+.content-row::-webkit-scrollbar {
+    width: 8px;
 }
 
-#plg-arrow-bottom:before {
-  left: calc(50% - 10px);
-  top: -8px;
-  margin-top: 3px;
+.content-row::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
 }
 
-/* #plg-top-arrow,
-#plg-bottom-arrow {
-  display: block;
-  position: relative;
-  width: 32px !important;
-  height: 18px !important;
-  background-image: url(icons/arrow.png);
-  background-size: 32px 18px;
-  background-color: white;
-} */
+.content-row::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.content-row::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* For non-WebKit browsers */
+.content-row {
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+.demo-text {
+    padding: 5px;
+    line-height: 1.5;
+}
+
+/* Decorative elements */
+.decoration {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.03;
+    background:
+        radial-gradient(circle at 10% 20%, #4cc9f0 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, #f72585 0%, transparent 20%);
+}

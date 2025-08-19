@@ -20,7 +20,8 @@
         "translation.js"
       ],
       "css": [
-        "content.css"
+        "content.css",
+        "fontawesome-free-7.0.0-web/css/all.min.css"
       ]
     }
   ],
@@ -40,6 +41,8 @@
   "web_accessible_resources": [
     "icons/translate-btn.svg",
     "tooltip/tooltip.html",
-    "icons/logo/icon-32.png"
-  ]
+    "icons/logo/icon-32.png",
+    "fontawesome-free-7.0.0-web/webfonts/fa-solid-900.woff2"
+  ],
+  "content_security_policy": "script-src 'self'"
 }
