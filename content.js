@@ -7,7 +7,11 @@ document.addEventListener('mouseup', (event) => {
   let selection = window.getSelection()
   selectedText = selection.toString().trim();
 
-  if (selectedText.length > 0 && !document.getElementById('plg-translate-btn')) {
+  if (
+    selectedText.length > 0 &&
+    !document.getElementById('plg-translate-btn') &&
+    !document.getElementById('plg-tooltip-wrapper')
+  ) {
     showTranslateButton(
       event.clientX,
       event.clientY + 10 + document.documentElement.scrollTop
