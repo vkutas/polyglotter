@@ -7,7 +7,11 @@ document.addEventListener('mouseup', (event) => {
   let selection = window.getSelection()
   selectedText = selection.toString().trim();
 
-  if (selectedText.length > 0 && !document.getElementById('plg-translate-btn')) {
+  if (
+    selectedText.length > 0 &&
+    !document.getElementById('plg-translate-btn') &&
+    !document.getElementById('plg-tooltip-wrapper')
+  ) {
     showTranslateButton(
       event.clientX,
       event.clientY + 10 + document.documentElement.scrollTop
@@ -42,6 +46,13 @@ function showTranslateButton(posX, posY) {
       translateButton.style.display = 'block';
       translateButton.style.left = `${posX - 16}px`;
       translateButton.style.top = `${posY + 10}px`;
+
+      // remove translateButton after 3 seconds
+      setTimeout(function () {
+        if (translateButton) {
+          translateButton.remove();
+        }
+      }, 3000);
 
       // remove translateButton from DOM when clicking elsewhere
       document.addEventListener('mousedown', (event) => {
